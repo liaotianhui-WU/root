@@ -82,7 +82,7 @@ try
     double Rref = Rref_mul * Rmax;          // reference radius / lattice spacing
     double RminFraction = Rmin / Rref;      // minimum radius as fraction of Rref
 
-    dom.GenSpheresBox(1, X0, X1, Rref, rho, "Normal", seed, fraction, RminFraction);
+    dom.GenSpheresBox(1, X0, X1, Rref, rho, "HCP", seed, fraction, RminFraction);
 
     // set interaction properties for tag 1 and container walls (set walls later with tags -1..-5)
     Dict prps;
@@ -120,13 +120,13 @@ try
         Particle* p = dom.Particles[i];
         if (p->Tag == 1)
         {
-            p->Ff = p->Props.m * Vec3_t(0.0, 0.0, -9.81); // gravity
+            p->Ff = p->Props.m * Vec3_t(0.0, 0.0, -5); // gravity
         }
     }
 
     dom.Initialize(dt);
-    // dom.WriteXDMF("soil_packing");
     dom.Solve(tf, dt, dtOut, /*setup*/ NULL, /*report*/ NULL, "soil_packing", false, Nproc);
+    dom.Save("soil_dom");
 
     // --- dump wall-particle contacts
     // writes: idx p1_index p1_tag p2_index p2_tag cx cy cz Fx Fy Fz
