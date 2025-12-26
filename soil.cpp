@@ -32,6 +32,7 @@ try
     if (!Util::FileExists(filename)) throw new Fatal("File <%s> not found",filename.CStr());
     ifstream infile(filename.CStr());
 
+    double verlet;  
     double rho;  
     double Rmax;         
     double Rmin;       
@@ -52,6 +53,7 @@ try
     double Gt;
     double Mu;
     {
+    infile >> verlet;       infile.ignore(200,'\n');
     infile >> rho;          infile.ignore(200,'\n');
     infile >> Rmax;         infile.ignore(200,'\n');
     infile >> Rmin;         infile.ignore(200,'\n');
@@ -74,6 +76,7 @@ try
     }
 
     DEM::Domain dom;
+    dom.Alpha = verlet;
 
     // generate a lattice of particles inside a box using GenSpheresBox (tag 1)
     // X0/X1 are the full box extents 
@@ -86,7 +89,7 @@ try
 
     // set interaction properties for tag 1 and container walls (set walls later with tags -1..-5)
     Dict prps;
-    prps.Set(1, "Kn Kt Gn Gt Mu", Kn, Kt, Gn, Gt, Mu);
+    prps.Set(1, "Kn Kt Gn Gt Mu Eta Beta", Kn, Kt, Gn, Gt, Mu, 0.0, 0.0);
     dom.SetProps(prps);
 
     // build container walls with GenOpenBox (tags -1..-5) (centered in the function)
@@ -120,7 +123,7 @@ try
         Particle* p = dom.Particles[i];
         if (p->Tag == 1)
         {
-            p->Ff = p->Props.m * Vec3_t(0.0, 0.0, -5); // gravity
+            p->Ff = p->Props.m * Vec3_t(0.0, 0.0, -9.8); // gravity
         }
     }
 
@@ -130,6 +133,7 @@ try
 
     // --- dump wall-particle contacts
     // writes: idx p1_index p1_tag p2_index p2_tag cx cy cz Fx Fy Fz
+    /*
     std::ofstream wf("wall_contacts_at_tf.txt");
     wf << "# idx p1_index p1_tag p2_index p2_tag cx cy cz Fx Fy Fz\n";
     for (size_t ic=0; ic<dom.CInteractons.Size(); ++ic)
@@ -166,7 +170,7 @@ try
     }
     of.close();
     std::cout << "Written polydisp_spheres.dat with " << id << " particles\n";
-
+*/
     return 0;
 }
 MECHSYS_CATCH

@@ -1,19 +1,20 @@
-2500.          # rho (kg/m^3)
+1e-3         # verlet distance
+2500.0          # rho (Kg/m^3)
 1e-3          # Rmax (m)
 7e-4          # Rmin (m)
-0.06          # Lx (m)
-0.06          # Ly (m)
-0.05          # Lz (m)
-5.0           # tf
+6.0e-2          # Lx (m)
+6.0e-2          # Ly (m)
+5.0e-2          # Lz (m)
+1.0           # tf
 1e-6          # dt
 1e-2           # dtOut
-0.3           # fraction (filling particles at lattice points)
+0.6           # fraction (filling particles at lattice points)
 1.05            # Rref multiplier (Rref = Rref_mul * Rmax)
-1.e-2            # planeR
+1.e-3            # planeR
 1.0            # Cf, openbox wall side length multiplicator
-318           # RNG seed
+1000           # RNG seed
 2.e4		# Kn, Normal stiffness
 5.e3		# Kt, Tangential stiffness
 -0.2		# Gn, Normal dissipative coefficient
--0.1		# Gt, Tangential dissipative coefficient
+0.0		# Gt, Tangential dissipative coefficient
 0.4		# Mu, friction coefficient
